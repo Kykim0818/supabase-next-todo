@@ -1,12 +1,13 @@
 "use client";
 
-import { getTodos } from "@/apis/todos-no-rls";
-import { useEffect } from "react";
+import useTodosController from "../hooks/useTodosController";
 
 export const TodoContainer = () => {
-  useEffect(() => {
-    getTodos();
-  }, []);
+  const { loading, todos } = useTodosController();
+
+  console.log(">>loading", loading);
+  console.log(">>todos", todos);
+
   return <div>TODO container</div>;
 };
 
