@@ -1,6 +1,6 @@
 import { Database } from "@/types/database.types";
 import { createServerClient } from "@supabase/ssr";
-import { getCookie, setCookie } from 'cookies-next';
+import { getCookie, setCookie } from "cookies-next";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -34,6 +34,7 @@ export const createServerSideClientRSC = async () => {
 };
 
 // - Middleware
+// 쿠키를 조작하는 방법이 달라서, 따로 추가해야 함
 export const createServerSideMiddleware = async (
   req: NextRequest,
   res: NextResponse
@@ -44,13 +45,14 @@ export const createServerSideMiddleware = async (
     {
       // cookies 관련 해당 추상화된 요청들이 들어오면 아래와 같은 내용이 실행되게 하겠다는 의미
       cookies: {
-        get: (key) => getCookie(key, { req, res}),
+        get: (key) => getCookie(key, { req, res }),
         set: (key, value, options) => {
-          setCookie(key, value, {req,res, ...options});
+          setCookie(key, value, { req, res, ...options });
         },
         remove: (key, options) => {
-          setCookie(key, "", {req,res, ...options});
+          setCookie(key, "", { req, res, ...options });
         },
       },
     }
+  );
 };
