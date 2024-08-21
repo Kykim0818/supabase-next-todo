@@ -10,6 +10,7 @@ const AuthUI = () => {
   const supabase = createSupabaseBrowserClient();
   const isMount = useHydrate();
 
+  
   const getUserInfo = async () => {
     const result = await supabase.auth.getUser();
     console.log(result);
@@ -19,6 +20,24 @@ const AuthUI = () => {
   const handleLogout = async () => {
     supabase.auth.signOut();
     window.location.reload();
+  }
+
+  const handleGoogleLogin = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO,
+      }
+    })
+  }
+
+  const handleGithubLogin = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: 'github',
+      options: {
+        redirectTo: process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO,
+      }
+    })
   }
 
   useEffect(() => {
